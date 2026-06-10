@@ -1,0 +1,1169 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GoInsight | Información Pública que Conecta</title>
+    <!-- Typography: Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Montserrat:wght@600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <style>
+        /* CSS Root and Custom Reset */
+        :root {
+            --deep-blue: #0A192F;
+            --mint: #48D197;
+            --light-grey: #F8F9FA;
+            --sky-blue: #002845;
+            --white: #FFFFFF;
+            --dark-text: #002845;
+            --muted-text: #D6EBFF;
+            --transition-smooth: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            font-family: 'Plus Jakarta Sans', 'Roboto', sans-serif;
+            color: var(--dark-text);
+            background-color: var(--white);
+            overflow-x: hidden;
+        }
+
+        body {
+            line-height: 1.6;
+        }
+
+        /* Typography Helper Classes */
+        h1, h2, h3, .brand-font {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            color: var(--deep-blue);
+        }
+
+        p {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            color: var(--dark-text);
+        }
+
+        .text-muted {
+            color: var(--muted-text);
+        }
+
+        /* Reusable Components & Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px 28px;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            font-size: 0.95rem;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            text-decoration: none;
+        }
+
+        .btn-sky {
+            background-color: var(--sky-blue);
+            color: var(--white);
+        }
+
+        .btn-sky:hover {
+            background-color: var(--mint);
+            color: var(--deep-blue);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(152, 251, 152, 0.3);
+        }
+
+        .btn-deep {
+            background-color: var(--deep-blue);
+            color: var(--white);
+            box-shadow: 0 4px 14px rgba(10, 25, 47, 0.2);
+        }
+
+        .btn-deep:hover {
+            background-color: var(--sky-blue);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(77, 161, 169, 0.4);
+        }
+
+        .btn-mint {
+            background-color: var(--mint);
+            color: var(--deep-blue);
+            box-shadow: 0 4px 14px rgba(152, 251, 152, 0.3);
+        }
+
+        .btn-mint:hover {
+            background-color: var(--white);
+            color: var(--deep-blue);
+            transform: translateY(-2px);
+        }
+
+        /* 1. Header & Navigation Bar */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 85px;
+            background-color: var(--white);
+            box-shadow: 0 2px 20px rgba(0,0,0,0.05);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 5%;
+            transition: var(--transition-smooth);
+        }
+
+        .navbar.scrolled {
+            height: 70px;
+            box-shadow: 0 10px 30px rgba(10, 25, 47, 0.08);
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+
+        /* Procedural Logo Mock inside CSS SVG */
+        .logo-graphic {
+            width: 42px;
+            height: 42px;
+        }
+
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .logo-title {
+            font-size: 1.5rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            line-height: 1.1;
+            color: #002845;
+        }
+
+        .logo-subtitle {
+            font-size: 0.55rem;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            color: var(--sky-blue);
+            font-weight: 600;
+            margin-top: 2px;
+        }
+
+        .nav-menu {
+            display: flex;
+            align-items: center;
+            list-style: none;
+            gap: 32px;
+        }
+
+        .nav-item a {
+            text-decoration: none;
+            color: var(--deep-blue);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: var(--transition-smooth);
+            position: relative;
+            padding: 4px 0;
+        }
+
+        .nav-item a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--sky-blue);
+            transition: var(--transition-smooth);
+        }
+
+        .nav-item a:hover::after {
+            width: 100%;
+        }
+
+        .nav-item a:hover {
+            color: var(--sky-blue);
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+        }
+
+        /* Mobile Hamburger */
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 6px;
+            cursor: pointer;
+            border: none;
+            background: none;
+        }
+
+        .menu-toggle span {
+            display: block;
+            width: 28px;
+            height: 3px;
+            background-color: var(--deep-blue);
+            border-radius: 2px;
+            transition: var(--transition-smooth);
+        }
+
+        /* 2. Hero Banner Section */
+        .hero-section {
+            padding: 160px 5% 100px 5%;
+            background-color: var(--light-grey);
+            min-height: 90vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 60px;
+            align-items: center;
+            width: 100%;
+        }
+
+        .hero-content {
+            z-index: 2;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            padding: 6px 16px;
+            background-color: rgba(77, 161, 169, 0.1);
+            color: var(--sky-blue);
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            margin-bottom: 24px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border: 1px solid rgba(77, 161, 169, 0.2);
+        }
+
+        .hero-title {
+            font-size: 3.2rem;
+            line-height: 1.15;
+            margin-bottom: 16px;
+            letter-spacing: -1px;
+        }
+
+        .hero-eslogan {
+            font-size: 1.8rem;
+            color: var(--sky-blue);
+            font-weight: 600;
+            margin-bottom: 24px;
+        }
+
+        .hero-p {
+            font-size: 1.15rem;
+            color: #4A5568;
+            margin-bottom: 40px;
+            max-width: 650px;
+        }
+
+        .hero-visual {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2;
+        }
+
+        /* Abstract dynamic SVG geometry based on logo guidelines */
+        .hero-svg-wrapper {
+            width: 100%;
+            max-width: 460px;
+            filter: drop-shadow(0 20px 40px rgba(10, 25, 47, 0.12));
+            animation: floatAnim 6s ease-in-out infinite;
+        }
+
+        @keyframes floatAnim {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        /* 3. Section de Conexión (El Porqué) */
+        .connection-section {
+            padding: 100px 5%;
+            background-color: var(--white);
+        }
+
+        .section-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 70px;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            position: relative;
+            display: inline-block;
+            padding-bottom: 15px;
+        }
+
+        .section-header h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--deep-blue), var(--sky-blue));
+            border-radius: 2px;
+        }
+
+        .philosophy-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+        }
+
+        .philosophy-card {
+            background-color: var(--light-grey);
+            border-radius: 16px;
+            padding: 50px 40px;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(0,0,0,0.03);
+            transition: var(--transition-smooth);
+        }
+
+        .philosophy-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(10,25,47,0.05);
+        }
+
+        .philosophy-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 6px;
+            height: 100%;
+        }
+
+        .card-insight::before {
+            background-color: var(--sky-blue);
+        }
+
+        .card-go::before {
+            background-color: var(--mint);
+        }
+
+        .phil-badge {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 800;
+            font-size: 3.5rem;
+            opacity: 0.12;
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            line-height: 1;
+        }
+
+        .phil-sub {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .phil-text {
+            font-size: 1.05rem;
+            color: #4A5568;
+            line-height: 1.7;
+        }
+
+        /* 4. Vista Rápida de Soluciones (Mínimo Viable) */
+        .solutions-section {
+            padding: 100px 5%;
+            background-color: var(--light-grey);
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+
+        .solution-card {
+            background-color: var(--white);
+            border-radius: 14px;
+            padding: 40px 30px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+            transition: var(--transition-smooth);
+            border: 1px solid rgba(0,0,0,0.01);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .solution-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 24px 48px rgba(10, 25, 47, 0.08);
+            border-color: rgba(77, 161, 169, 0.2);
+        }
+
+        .solution-icon {
+            width: 55px;
+            height: 55px;
+            background-color: rgba(77, 161, 169, 0.08);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--sky-blue);
+            margin-bottom: 25px;
+            transition: var(--transition-smooth);
+        }
+
+        .solution-card:hover .solution-icon {
+            background-color: var(--deep-blue);
+            color: var(--mint);
+        }
+
+        .solution-card h3 {
+            font-size: 1.25rem;
+            margin-bottom: 15px;
+            line-height: 1.4;
+        }
+
+        .solution-card p {
+            font-size: 0.98rem;
+            color: #5A6A85;
+            margin-bottom: 20px;
+        }
+
+        .footer-link-container {
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .explor-link {
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            color: var(--sky-blue);
+            text-decoration: none;
+            font-size: 1.05rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: var(--transition-smooth);
+            cursor: pointer;
+        }
+
+        .explor-link:hover {
+            color: var(--deep-blue);
+            transform: translateX(4px);
+        }
+
+        /* WorkFlow Timeline Styles */
+        .timeline-container {
+            margin-top: 90px;
+            background-color: var(--white);
+            padding: 60px 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.02);
+        }
+
+        .timeline-title {
+            text-align: center;
+            font-size: 1.8rem;
+            margin-bottom: 50px;
+        }
+
+        .timeline-steps {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            position: relative;
+        }
+
+        .timeline-steps::before {
+            content: '';
+            position: absolute;
+            top: 30px;
+            left: 12%;
+            width: 76%;
+            height: 3px;
+            background-color: #E2E8F0;
+            z-index: 1;
+        }
+
+        .timeline-step {
+            text-align: center;
+            position: relative;
+            z-index: 2;
+            cursor: pointer;
+        }
+
+        .step-number {
+            width: 60px;
+            height: 60px;
+            background-color: var(--light-grey);
+            border: 3px solid #E2E8F0;
+            color: var(--deep-blue);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.2rem;
+            margin: 0 auto 20px auto;
+            transition: var(--transition-smooth);
+        }
+
+        .timeline-step:hover .step-number, .timeline-step.active .step-number {
+            background-color: var(--deep-blue);
+            border-color: var(--mint);
+            color: var(--white);
+            transform: scale(1.1);
+        }
+
+        .step-heading {
+            font-size: 1.05rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            transition: var(--transition-smooth);
+        }
+
+        .timeline-step:hover .step-heading, .timeline-step.active .step-heading {
+            color: var(--sky-blue);
+        }
+
+        .step-desc {
+            font-size: 0.88rem;
+            color: #718096;
+            line-height: 1.5;
+            padding: 0 10px;
+        }
+
+        /* 5. Sección de Cierre: El Siguiente Paso (Lead Capture) */
+        .cta-close-section {
+            background-color: var(--deep-blue);
+            padding: 90px 5%;
+            color: var(--white);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-close-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(77,161,169,0.15) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .cta-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .cta-text-content h2 {
+            color: var(--white);
+            font-size: 2.4rem;
+            line-height: 1.25;
+            margin-bottom: 20px;
+        }
+
+        .cta-text-content p {
+            color: #A0AEC0;
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+        }
+
+        .values-list {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .value-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            font-size: 0.95rem;
+            color: var(--mint);
+        }
+
+        .value-icon {
+            width: 8px;
+            height: 8px;
+            background-color: var(--sky-blue);
+            border-radius: 50%;
+        }
+
+        /* Contact & Lead Capture Form */
+        .lead-form-container {
+            background-color: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 40px;
+            border-radius: 16px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+            color: #CBD5E0;
+            font-weight: 500;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 16px;
+            background-color: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 8px;
+            color: var(--white);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 1rem;
+            transition: var(--transition-smooth);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--sky-blue);
+            background-color: rgba(255,255,255,0.1);
+            box-shadow: 0 0 0 3px rgba(77, 161, 169, 0.2);
+        }
+
+        select.form-control option {
+            background-color: var(--deep-blue);
+            color: var(--white);
+        }
+
+        .form-submit-btn {
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #061020;
+            padding: 40px 5%;
+            color: #718096;
+            font-size: 0.9rem;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .footer-box {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .footer-copy span {
+            color: var(--sky-blue);
+            font-weight: 600;
+        }
+
+        /* Modal Overlay for Interactive Consultation Scheduling */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(10, 25, 47, 0.85);
+            backdrop-filter: blur(8px);
+            z-index: 2000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: var(--transition-smooth);
+        }
+
+        .modal-overlay.open {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-card {
+            background-color: var(--white);
+            width: 90%;
+            max-width: 550px;
+            border-radius: 16px;
+            padding: 40px;
+            position: relative;
+            transform: scale(0.9);
+            transition: var(--transition-smooth);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.3);
+        }
+
+        .modal-overlay.open .modal-card {
+            transform: scale(1);
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            font-size: 1.8rem;
+            cursor: pointer;
+            color: var(--deep-blue);
+            line-height: 1;
+        }
+
+        /* Toast Notifications */
+        .toast-notification {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background-color: #2F855A;
+            color: var(--white);
+            padding: 16px 24px;
+            border-radius: 8px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            font-weight: 600;
+            z-index: 3000;
+            transform: translateY(100px);
+            opacity: 0;
+            transition: var(--transition-smooth);
+        }
+
+        .toast-notification.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        /* Responsive Breakpoints */
+        @media (max-width: 1024px) {
+            .hero-title { font-size: 2.6rem; }
+            .hero-container { grid-template-columns: 1.1fr 0.9fr; gap: 40px; }
+            .philosophy-grid { gap: 24px; }
+            .cards-grid { grid-template-columns: repeat(2, 1fr); }
+            .timeline-steps { grid-template-columns: repeat(2, 1fr); gap: 40px 20px; }
+            .timeline-steps::before { display: none; }
+            .cta-container { grid-template-columns: 1fr; gap: 40px; }
+        }
+
+        @media (max-width: 768px) {
+            .menu-toggle { display: flex; }
+            .nav-menu {
+                position: fixed;
+                top: 85px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 85px);
+                background-color: var(--white);
+                flex-direction: column;
+                padding: 40px 0;
+                gap: 30px;
+                transition: var(--transition-smooth);
+                box-shadow: 0 15px 30px rgba(0,0,0,0.05);
+            }
+            .nav-menu.open { left: 0; }
+            .nav-actions { display: none; }
+            .hero-container { grid-template-columns: 1fr; text-align: center; }
+            .hero-p { margin-left: auto; margin-right: auto; }
+            .hero-visual { order: -1; }
+            .philosophy-grid { grid-template-columns: 1fr; }
+            .cards-grid { grid-template-columns: 1fr; }
+            .timeline-steps { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 1. Header & Navbar Section -->
+    <header class="navbar" id="mainNavbar">
+        <a href="#" class="logo-container">
+            <!-- Brand styled SVG logo mimicking user requirements -->
+           
+            <img src="logolg.png" height="70px" width="70px">
+            <div class="logo-text">
+                <span class="logo-title">GoInsight</span>
+                <span class="logo-subtitle">Comunicación e Inteligencia</span>
+            </div>
+        </a>
+
+        <ul class="nav-menu" id="navMenu">
+            <li class="nav-item"><a href="#">Inicio</a></li>
+            <li class="nav-item"><a href="#quienes-somos">Quiénes Somos</a></li>
+            <li class="nav-item"><a href="#servicios">Servicios</a></li>
+            <li class="nav-item"><a href="#contacto">Contacto</a></li>
+            <li class="nav-item mobile-only" style="display: none;"><button class="btn btn-sky btnOpenConsultation">Agendar Consulta</button></li>
+        </ul>
+
+        <div class="nav-actions">
+            <button class="btn btn-sky btnOpenConsultation">Agendar Consulta</button>
+        </div>
+
+        <button class="menu-toggle" id="mobileMenuBtn" aria-label="Abrir menú">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+    </header>
+
+    <!-- 2. Hero Banner Section -->
+    <section class="hero-section">
+        <div class="hero-container">
+            <div class="hero-content">
+                <span class="hero-badge">Consultoría Estratégica</span>
+                <h1 class="hero-title">Transformamos datos públicos en confianza ciudadana.</h1>
+                <h2 class="hero-eslogan">Información pública que conecta.</h2>
+                <p class="hero-p">
+                    Ayudamos a las entidades gubernamentales a estructurar, analizar y comunicar sus datos de manera estratégica. Diseñamos prototipos y narrativas visuales (Data Storytelling) que consolidan administraciones más transparentes, eficientes y cercanas al ciudadano.
+                </p>
+                <a href="#servicios" class="btn btn-deep">Ver Nuestras Líneas de Servicio</a>
+            </div>
+            
+            <div class="hero-visual">
+                <!-- High Fidelity Procedural Brand SVG Asset inside Hero -->
+                 <img src="logolg.png" height="280px" width="280px">
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. Sección de Conexión (El Porqué de GoInsight) -->
+    <section class="connection-section" id="quienes-somos">
+        <div class="section-container">
+            <div class="section-header">
+                <h2>El poder de la analítica con sentido público</h2>
+                <p class="text-muted" style="max-width: 700px; margin: 0 auto; font-size: 1.1rem;">Rompemos la parálisis de los portales de datos tradicionales a través de nuestro enfoque binario integrado.</p>
+            </div>
+
+            <div class="philosophy-grid">
+                <!-- Insight Card -->
+                <div class="philosophy-card card-insight">
+                    <div class="phil-badge" style="color: var(--sky-blue);">INSIGHT</div>
+                    <h3 class="phil-sub" style="color: var(--sky-blue);">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+                        Lucidez Analítica
+                    </h3>
+                    <p class="phil-text">
+                        Extraemos la verdad detrás de los datos masivos del Estado. Traducimos la complejidad técnica en una comprensión profunda y transparente del impacto gubernamental.
+                    </p>
+                </div>
+
+                <!-- Go Card -->
+                <div class="philosophy-card card-go">
+                    <div class="phil-badge" style="color: var(--mint);">GO</div>
+                    <h3 class="phil-sub" style="color: var(--deep-blue);">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#98FB98" stroke-width="3" stroke-linecap="round"><path d="m5 12 7-7 7 7M12 5v14"/></svg>
+                        Fuerza Motriz
+                    </h3>
+                    <p class="phil-text">
+                        Pasamos de la teoría a la práctica de inmediato. Convertimos la información estática en un motor de cambio, impulsando decisiones institucionales ágiles y orientadas a resultados.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. Vista Rápida de Soluciones y Metodología -->
+    <section class="solutions-section" id="servicios">
+        <div class="section-container">
+            <div class="section-header">
+                <h2>Soluciones diseñadas para la gestión pública moderna</h2>
+            </div>
+
+            <div class="cards-grid">
+                <!-- Card 1 -->
+                <div class="solution-card">
+                    <div>
+                        <div class="solution-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg>
+                        </div>
+                        <h3>Portales de Transparencia Activa</h3>
+                        <p>Dashboards interactivos y herramientas web que transforman reportes densos en visualizaciones claras y accesibles para toda la ciudadanía.</p>
+                    </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="solution-card">
+                    <div>
+                        <div class="solution-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="m9 12 2 2 4-4"/></svg>
+                        </div>
+                        <h3>Auditoría y Estrategia de Datos</h3>
+                        <p>Diagnósticos técnicos y metodológicos para optimizar las fuentes de información internas y asegurar la gobernanza de datos de su entidad.</p>
+                    </div>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="solution-card">
+                    <div>
+                        <div class="solution-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                        </div>
+                        <h3>Capacitación en Data Storytelling</h3>
+                        <p>Programas formativos avanzados para capacitar a los equipos de comunicación pública en el arte de comunicar datos de forma humana.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-link-container">
+                <a class="explor-link" id="btnToggleTimeline">
+                    Explorar el flujo completo de nuestra propuesta metodológica <span id="arrowIndicator">↓</span>
+                </a>
+            </div>
+
+            <!-- Flujo de trabajo: (Timeline Widget) -->
+            <div class="timeline-container" id="timelineWidget" style="display: none;">
+                <h3 class="timeline-title">Nuestra Propuesta Metodológica</h3>
+                <div class="timeline-steps">
+                    <!-- Step 1 -->
+                    <div class="timeline-step active" onclick="activateStep(1)">
+                        <div class="step-number">1</div>
+                        <div class="step-heading">Fase 1: Diagnóstico</div>
+                        <p class="step-desc">Auditoría técnica de fuentes de datos internas, garantizando calidad según directrices de Gobierno Digital.</p>
+                    </div>
+                    <!-- Step 2 -->
+                    <div class="timeline-step" onclick="activateStep(2)">
+                        <div class="step-number">2</div>
+                        <div class="step-heading">Fase 2: Arquitectura</div>
+                        <p class="step-desc">Extracción y procesamiento masivo. La información estática se convierte en bases de datos dinámicas.</p>
+                    </div>
+                    <!-- Step 3 -->
+                    <div class="timeline-step" onclick="activateStep(3)">
+                        <div class="step-number">3</div>
+                        <div class="step-heading">Fase 3: Visualización</div>
+                        <p class="step-desc">Diseño de dashboards interactivos, portales de transparencia activa y mapas de datos limpios.</p>
+                    </div>
+                    <!-- Step 4 -->
+                    <div class="timeline-step" onclick="activateStep(4)">
+                        <div class="step-number">4</div>
+                        <div class="step-heading">Fase 4: Conexión</div>
+                        <p class="step-desc">Traducción de datos en narrativas humanas que construyen legitimidad y confianza institucional.</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- 5. Sección de Cierre: El Siguiente Paso (Lead Capture) -->
+    <section class="cta-close-section" id="contacto">
+        <div class="cta-container">
+            <div class="cta-text-content">
+                <h2>¿Listo para transformar la gestión de datos de su entidad?</h2>
+                <p>Consolide una administración transparente, orientada a resultados y con impacto real en la ciudadanía.</p>
+                
+                <div class="values-list">
+                    <div class="value-item"><div class="value-icon"></div> Claridad</div>
+                    <div class="value-item"><div class="value-icon"></div> Transparencia</div>
+                    <div class="value-item"><div class="value-icon"></div> Inteligencia</div>
+                    <div class="value-item"><div class="value-icon"></div> Cercanía</div>
+                    <div class="value-item"><div class="value-icon"></div> Impacto</div>
+                    <div class="value-item"><div class="value-icon"></div> Confianza</div>
+                </div>
+            </div>
+
+            <div class="lead-form-container">
+                <form id="leadForm" onsubmit="handleFormSubmit(event)">
+                    <div class="form-group">
+                        <label for="govName">Nombre del Funcionario / Entidad</label>
+                        <input type="text" id="govName" class="form-control" placeholder="Ej. Alcaldía Principal" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="govEmail">Correo Electrónico Oficial</label>
+                        <input type="email" id="govEmail" class="form-control" placeholder="ejemplo@entidad.gov" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="serviceInterest">Servicio de Interés Principal</label>
+                        <select id="serviceInterest" class="form-control">
+                            <option value="transparency">Portales de Transparencia Activa</option>
+                            <option value="strategy">Auditoría y Estrategia de Datos</option>
+                            <option value="storytelling">Capacitación en Data Storytelling</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-mint form-submit-btn">Solicitar Información Institucional</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-box">
+            <div class="footer-copy">
+                &copy; 2026 <span>GoInsight</span>. Todos los derechos reservados.
+            </div>
+            <div>
+                Estrategia y Analítica Digital para Entidades Públicas.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Interactive Consultation Modal Container -->
+    <div class="modal-overlay" id="consultationModal">
+        <div class="modal-card">
+            <button class="close-modal" id="btnCloseModal">&times;</button>
+            <h3 style="margin-bottom: 15px; font-size: 1.6rem;">Agendar Consulta Estratégica</h3>
+            <p style="color: var(--muted-text); margin-bottom: 25px;">Seleccione un espacio en la agenda de nuestra mesa técnica de GoInsight para analizar su caso.</p>
+            
+            <form id="modalForm" onsubmit="handleModalSubmit(event)">
+                <div class="form-group">
+                    <label style="color: var(--dark-text);" for="mName">Nombre Completo</label>
+                    <input type="text" id="mName" class="form-control" style="color: var(--dark-text); border-color: #CBD5E0;" required>
+                </div>
+                <div class="form-group">
+                    <label style="color: var(--dark-text);" for="mDate">Fecha Propuesta</label>
+                    <input type="date" id="mDate" class="form-control" style="color: var(--dark-text); border-color: #CBD5E0;" required>
+                </div>
+                <button type="submit" class="btn btn-deep" style="width: 100%;">Confirmar Espacio de Consulta</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Toast Notification Element -->
+    <div class="toast-notification" id="toastMessage">
+        ¡Mensaje enviado con éxito! Nos comunicaremos en breve.
+    </div>
+
+    <!-- JavaScript Interactions Logic -->
+    <script>
+        // Navbar Scrolled Effect
+        window.addEventListener('scroll', () => {
+            const navbar = document.getElementById('mainNavbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const navMenu = document.getElementById('navMenu');
+        
+        mobileMenuBtn.addEventListener('click', () => {
+            navMenu.classList.toggle('open');
+            mobileMenuBtn.classList.toggle('active');
+        });
+
+        // Toggle Timeline Flow Widget
+        const btnToggleTimeline = document.getElementById('btnToggleTimeline');
+        const timelineWidget = document.getElementById('timelineWidget');
+        const arrowIndicator = document.getElementById('arrowIndicator');
+
+        btnToggleTimeline.addEventListener('click', () => {
+            if (timelineWidget.style.display === 'none') {
+                timelineWidget.style.display = 'block';
+                arrowIndicator.textContent = '↑';
+                timelineWidget.scrollIntoView({ behavior: 'smooth' });
+            } else {
+                timelineWidget.style.display = 'none';
+                arrowIndicator.textContent = '↓';
+            }
+        });
+
+        // Interactive Steps Highlight logic
+        function activateStep(stepNum) {
+            const steps = document.querySelectorAll('.timeline-step');
+            steps.forEach((step, index) => {
+                if (index + 1 === stepNum) {
+                    step.classList.add('active');
+                } else {
+                    step.classList.remove('active');
+                }
+            });
+        }
+
+        // Modal Open / Close Logic
+        const modal = document.getElementById('consultationModal');
+        const openBtns = document.querySelectorAll('.btnOpenConsultation');
+        const closeBtn = document.getElementById('btnCloseModal');
+
+        openBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                modal.classList.add('open');
+            });
+        });
+
+        closeBtn.addEventListener('click', () => {
+            modal.classList.remove('open');
+        });
+
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.classList.remove('open');
+            }
+        });
+
+        // Toast Helper Function
+        function showToast(message) {
+            const toast = document.getElementById('toastMessage');
+            if (message) toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 4000);
+        }
+
+        // Form Submit Actions
+        function handleFormSubmit(event) {
+            event.preventDefault();
+            showToast('¡Solicitud institucional recibida! Nuestro equipo de datos le contactará.');
+            document.getElementById('leadForm').reset();
+        }
+
+        function handleModalSubmit(event) {
+            event.preventDefault();
+            modal.classList.remove('open');
+            showToast('¡Consulta agendada con éxito! Revise su correo oficial.');
+            document.getElementById('modalForm').reset();
+        }
+    </script>
+</body>
+</html>
